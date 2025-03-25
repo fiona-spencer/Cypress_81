@@ -19,7 +19,7 @@
     "env": "^0.0.2",
     "express": "^4.19.1",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.2.3",
+    "mongoose": "^8.13.0",
     "nodeman": "^1.1.2",
     "nodemon": "^3.1.0"
   }

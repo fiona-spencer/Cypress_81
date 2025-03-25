@@ -14,6 +14,15 @@ https://console.firebase.google.com/project/mern-blog-f39b4
 
 ## Start environment
 
-mern-blog `r npm run dev`
+# Dependencies
 
-mern-blog / client `r npm run dev`
+`npm install -g nodemon`
+`npm install`
+`npm install mongoose`
+`npm install -g mongosh`
+
+
+
+database connection `npm run dev`
+
+mern-blog / client `npx vite`
