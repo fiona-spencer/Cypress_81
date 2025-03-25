@@ -10,6 +10,8 @@ import path from 'path';
 
 dotenv.config();
 
+console.log(process.env.MONGO);
+
 mongoose
   .connect(process.env.MONGO)
   .then(() => {

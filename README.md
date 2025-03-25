@@ -20,8 +20,14 @@ https://console.firebase.google.com/project/mern-blog-f39b4
 `npm install`
 `npm install mongoose`
 `npm install -g mongosh`
+`npm install firebase`
+`npm install -g firebase-tools`
+`npm i bcryptjs`
+`npm i cookie-parser`
 
+Connect MongoDB
 
+Connect Firebase
 
 database connection `npm run dev`
 
