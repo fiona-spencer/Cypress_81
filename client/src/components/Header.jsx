@@ -49,15 +49,15 @@ export default function Header() {
   };
 
   return (
-    <Navbar className='border-b-2'>
+    <Navbar className='border-b-2 bg-[#87b5d6]'>
       <Link
         to='/'
-        className='self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white'
+        className='self-center whitespace-nowrap sm:text-2xl md:text-3xl lg:text-4xl md:py-4 lg:py-6 font-semibold dark:text-white m-4'
       >
-        <span className='px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-lg text-white'>
-          Fiona's 
-        </span>
-        &nbsp;Blog
+        <span className=' px-4 py-5 bg-gradient-to-r from-blue-900 via-blue-600 to-blue-600 rounded-md text-white'>
+                <img className='inline-grid h-10 mb-3' src="https://www.toronto.ca/wp-content/themes/cot/img/logo.svg" alt="City of Toronto" />
+              </span>
+        &nbsp;Report Application
       </Link>
       <form onSubmit={handleSubmit}>
         <TextInput
@@ -86,7 +86,7 @@ export default function Header() {
             arrowIcon={false}
             inline
             label={
-              <Avatar alt='user' img={currentUser.profilePicture} rounded />
+              <Avatar alt='user' img={currentUser.profilePicture} rounded sx={{ width: 1, height: 80 }}/>
             }
           >
             <Dropdown.Header>
@@ -110,17 +110,17 @@ export default function Header() {
         )}
         <Navbar.Toggle />
       </div>
-      <Navbar.Collapse>
-        <Navbar.Link active={path === '/'} as={'div'}>
-          <Link to='/'>Home</Link>
-        </Navbar.Link>
-        <Navbar.Link active={path === '/about'} as={'div'}>
-          <Link to='/about'>About</Link>
-        </Navbar.Link>
-        <Navbar.Link active={path === '/projects'} as={'div'}>
-          <Link to='/projects'>Projects</Link>
-        </Navbar.Link>
-      </Navbar.Collapse>
-    </Navbar>
+        <Navbar.Collapse>
+          <Navbar.Link active={path === '/'} as={'div'} className='lg:text-2xl font-extrabold'>
+            <Link to='/'>Home</Link>
+          </Navbar.Link>
+          <Navbar.Link active={path === '/about'} as={'div'} className='lg:text-2xl font-extrabold'>
+            <Link to='/about'>Map</Link>
+          </Navbar.Link>
+          <Navbar.Link active={path === '/projects'} as={'div'} className='lg:text-2xl font-extrabold'>
+            <Link to='/projects'>Departments</Link>
+          </Navbar.Link>
+        </Navbar.Collapse>
+      </Navbar>
   );
 }
