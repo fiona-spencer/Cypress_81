@@ -25,6 +25,12 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    // Add userType field
+    userType: {
+      type: String,
+      enum: ['Public', 'City Staff', 'Admin'], // Ensure only these types are allowed
+      required: true, // Make it a required field
+    },
   },
   { timestamps: true }
 );

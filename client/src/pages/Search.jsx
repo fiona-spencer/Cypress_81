@@ -1,6 +1,7 @@
 import { Button, Select, TextInput } from 'flowbite-react';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import React from 'react';
 import PostCard from '../components/PostCard';
 
 export default function Search() {
@@ -130,10 +131,20 @@ export default function Search() {
               value={sidebarData.category}
               id='category'
             >
-              <option value='uncategorized'>Uncategorized</option>
-              <option value='reactjs'>React.js</option>
-              <option value='nextjs'>Next.js</option>
-              <option value='javascript'>JavaScript</option>
+              <option value="uncategorized">Select a category</option>
+              <option value="Emergency">Fire/Ambulance</option>
+              <option value="TTC">TTC</option>
+              <option value="Hydro">Hydro</option>
+              <option value="Poison Control">Poison Centre</option>
+              <option value="Animal Services">Animal Services</option>
+              <option value="Building Permits">Building Permits</option>
+              <option value="Parks and Recreation">Parks & Recreation</option>
+              <option value="Waste Collection">Waste Collection</option>
+              <option value="Water Leaks">Water Main</option>
+              <option value="Graffiti Removal">Graffiti Removal</option>
+              <option value="Tree Maintenance">Tree Maintenance</option>
+              <option value="Public Health">Public Health</option>
+              <option value="Snow Removal">Snow Removal</option>
             </Select>
           </div>
           <Button type='submit' outline gradientDuoTone='purpleToPink'>

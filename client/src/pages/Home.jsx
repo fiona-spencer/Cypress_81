@@ -1,4 +1,6 @@
 import { Link } from 'react-router-dom';
+import { Button } from 'flowbite-react';
+import { HiOutlineArrowRight } from "react-icons/hi"
 import { useState } from 'react';
 import CallToAction from '../components/CallToAction';
 import cityT from '../assets/pages_images/city_image.svg'
@@ -29,7 +31,7 @@ export default function Home() {
         <h2 className="text-2xl font-semibold text-center">City of Toronto Reported Issues</h2>
         <div className="text-center">
           <Link
-            to="/reports"
+            to="/about"
             className="text-teal-500 font-bold hover:underline text-lg"
           >
             View Map
@@ -38,7 +40,7 @@ export default function Home() {
       </div>
       <div className="max-w-6xl mx-auto p-3 flex flex-col gap-8 py-7">
   <h2 className="text-2xl font-semibold text-center">
-    Fill Out a Report using the department report forms or the map
+    Fill Out A Report Using The Department Report Forms Or The City Map
   </h2>
         {/* Flex container for report page and map page sections */}
         <div className="flex gap-8 justify-center m-2">
@@ -47,10 +49,10 @@ export default function Home() {
             <div className="text-xl font-semibold text-center dark:text-gray-700">Report Form</div>
             <div className="text-center mt-4">
               <Link
-                to="/report-form"
-                className="inline-block px-4 py-2 bg-teal-500 text-white font-bold rounded-lg hover:bg-teal-600"
+                to="/projects"
+                className="flex px-4 py-2 bg-blue-500 text-white font-bold rounded-lg hover:bg-blue-600"
               >
-                Go to Report Page
+                Go to Report Page<HiOutlineArrowRight className="ml-2 h-5 w-5" />
               </Link>
             </div>
             
@@ -70,10 +72,12 @@ export default function Home() {
             <h3 className="text-xl font-semibold text-center dark:text-gray-700">How to Use the Map</h3>
             <div className="text-center mt-4">
               <Link
-                to="/map"
-                className="inline-block px-4 py-2 bg-teal-500 text-white font-bold rounded-lg hover:bg-teal-600"
+                to="/about"
+                className="flex px-4 py-2 bg-blue-500 text-white font-bold rounded-lg hover:bg-blue-600"
               >
                 Go to Map Page
+                <HiOutlineArrowRight className="ml-2 h-5 w-5" />
+
               </Link>
             </div>
 

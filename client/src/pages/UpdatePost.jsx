@@ -1,4 +1,5 @@
 import { Alert, Button, FileInput, Select, TextInput } from 'flowbite-react';
+import React from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import {
@@ -129,10 +130,20 @@ export default function UpdatePost() {
             }
             value={formData.category}
           >
-            <option value='uncategorized'>Select a category</option>
-            <option value='javascript'>JavaScript</option>
-            <option value='reactjs'>React.js</option>
-            <option value='nextjs'>Next.js</option>
+            <option value="uncategorized">Select a category</option>
+            <option value="Emergency">Fire/Ambulance</option>
+            <option value="TTC">TTC</option>
+            <option value="Hydro">Hydro</option>
+            <option value="Poison Control">Poison Centre</option>
+            <option value="Animal Services">Animal Services</option>
+            <option value="Building Permits">Building Permits</option>
+            <option value="Parks and Recreation">Parks & Recreation</option>
+            <option value="Waste Collection">Waste Collection</option>
+            <option value="Water Leaks">Water Main</option>
+            <option value="Graffiti Removal">Graffiti Removal</option>
+            <option value="Tree Maintenance">Tree Maintenance</option>
+            <option value="Public Health">Public Health</option>
+            <option value="Snow Removal">Snow Removal</option> 
           </Select>
         </div>
         <div className='flex gap-4 items-center justify-between border-4 border-teal-500 border-dotted p-3'>

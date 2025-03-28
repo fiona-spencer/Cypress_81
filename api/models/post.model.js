@@ -6,23 +6,49 @@ const postSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    content: {
-      type: String,
-      required: true,
-    },
     title: {
       type: String,
       required: true,
       unique: true,
     },
-    image: {
+    fullName: {
       type: String,
-      default:
-        'https://www.hostinger.com/tutorials/wp-content/uploads/sites/2/2021/09/how-to-write-a-blog-post.png',
+      required: true,
+    },
+    email: {
+      type: String,
+      required: true,
+    },
+    phoneNumber: {
+      type: String,
+      required: true,
+    },
+    severity: {
+      type: Number,
+      min: 1,
+      max: 10,
+      required: true,
+    },
+    location: {
+      type: String,
+      required: true,
+    },
+    dateOfIncident: {
+      type: Date,
+      required: true,
     },
     category: {
       type: String,
       default: 'uncategorized',
+    },
+    content: {
+      type: String,
+      required: true,
+    },
+    image: {
+      type: String,
+      default:
+        'https://thumbs.dreamstime.com/b/seamless-banner-toronto%C3%A2%E2%82%AC%E2%84%A2s-skyline-toronto-canada-seamless-banner-city%C3%A2%E2%82%AC%E2%84%A2s-skyline-hand-drawn-black-white-118891593.jpg',
     },
     slug: {
       type: String,
