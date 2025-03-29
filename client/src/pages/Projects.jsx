@@ -1,6 +1,4 @@
 import { FaSkullCrossbones, FaFireExtinguisher, FaTaxi, FaPlug, FaDog, FaBuilding, FaTree, FaSnowflake, FaRegTrashAlt, FaLandmark, FaBug, FaWineBottle, FaWater } from 'react-icons/fa';
-import CallToAction from '../components/CallToAction';
-
 
 //Local images
 import fire from '../assets/pages_images/fire_image.png'; 
@@ -174,7 +172,6 @@ export default function Projects() {
         ))}
       </div>
 
-      <CallToAction />
     </div>
   );
 }

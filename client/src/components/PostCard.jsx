@@ -37,7 +37,7 @@ const getCategoryIcon = (category) => {
 
 export default function PostCard({ post }) {
   return (
-    <div className='flex w-full border-blue-800 hover:border-2 rounded-lg transition-all bg-blue-100'>
+    <div className='flex w-full border-blue-800 hover:border-4 rounded-lg transition-all duration-75 bg-blue-100'>
       {/* Left side: Icon and Text Content */}
       <div className='flex flex-col p-3 gap-2 w-3/4'>
           <div className=' items-center gap-2'>
@@ -62,7 +62,7 @@ export default function PostCard({ post }) {
         {/* View Report Button */}
         <Link
           to={`/post/${post.slug}`}
-          className='mt-3 inline-block border border-teal-500 text-teal-500 hover:bg-teal-500 hover:text-white transition-all duration-300 text-center py-2 px-4 rounded-md'
+          className='mt-3 inline-block border border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white transition-all duration-300 text-center py-2 px-4 rounded-md'
         >
           View Report
         </Link>
