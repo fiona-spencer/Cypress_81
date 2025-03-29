@@ -21,13 +21,13 @@ const iconOptions = [
 const GoogleMap = ({ apiKey, mapId = '42c8848d94ad7219', center = { lat: 43.7, lng: -79.42 }, zoom = 12 }) => {
   const mapRef = useRef(null);
   const [isMapLoaded, setIsMapLoaded] = useState(false);
-  const [selectedIcon, setSelectedIcon] = useState(iconOptions[0].icon);
+  const [markersData, setMarkersData] = useState([]);
+  const [selectedIcon, setSelectedIcon] = useState(iconOptions[0].icon); // Default icon selected
   const [showDropdown, setShowDropdown] = useState(false);
   const [selectedDepartment, setSelectedDepartment] = useState('');
-  const [markersData, setMarkersData] = useState([]);
   const navigate = useNavigate();
 
-  // Load Google Maps Script
+  // Load Google Maps API
   useEffect(() => {
     const loadGoogleMapsScript = () => {
       const script = document.createElement('script');
@@ -35,7 +35,10 @@ const GoogleMap = ({ apiKey, mapId = '42c8848d94ad7219', center = { lat: 43.7, l
       script.async = true;
       document.body.appendChild(script);
 
-      script.onload = () => setIsMapLoaded(true);
+      script.onload = () => {
+        setIsMapLoaded(true);  // Update state when the map script is loaded
+      };
+
       script.onerror = () => {
         console.error('Google Maps API failed to load');
         setIsMapLoaded(false);
@@ -61,114 +64,98 @@ const GoogleMap = ({ apiKey, mapId = '42c8848d94ad7219', center = { lat: 43.7, l
     };
   }, [apiKey]);
 
+  // Fetch markers from the database
+  useEffect(() => {
+    fetch('http://localhost:5173/api/marker/getMarkers')
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success && Array.isArray(data.data)) {
+          setMarkersData(data.data);  // Successfully set the markers
+        } else {
+          console.error('Fetched data is not valid:', data);
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching markers:', error);
+      });
+  }, []);
+
+  // Initialize the map once the Google Maps API is loaded and mapRef is set
+  useEffect(() => {
+    if (isMapLoaded && mapRef.current) {
+      initMap();
+    }
+  }, [isMapLoaded, mapRef.current]);
+
+  // Initialize the map and place markers
   const initMap = async () => {
-    if (!mapRef.current) return;
+    if (!mapRef.current) {
+      console.error('Map container reference is null.');
+      return;
+    }
 
-    const { Map } = await google.maps.importLibrary("maps");
-    const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
-
-    const map = new Map(mapRef.current, {
-      center,
-      zoom,
-      mapId,
-    });
-
-    markersData.forEach((markerData) => {
-      createMarker(map, markerData.position, markerData.department);
-    });
-
-    map.addListener('click', (e) => {
-      setShowDropdown(true);
-      const reportTag = document.createElement("div");
-      reportTag.className = "report rounded-lg p-2 flex items-center justify-center text-white bg-blue-500 text-sm cursor-pointer transition transform duration-200 ease-in-out";
-      reportTag.textContent = "Select Department";
-
-      const newMarker = new AdvancedMarkerElement({
-        map,
-        position: e.latLng,
-        content: reportTag,
+    try {
+      const { Map } = await google.maps.importLibrary('maps');
+      const map = new Map(mapRef.current, {
+        center,
+        zoom,
+        mapId,
       });
 
-      newMarker.addListener("click", () => {
-        toggleHighlight(newMarker, reportTag);
+      console.log('Map initialized successfully:', map);
+
+      // Create markers based on fetched data
+      markersData.forEach((markerData) => {
+        createMarker(map, markerData.position, markerData.locationName);
       });
 
-      setMarkersData((prevData) => [
-        ...prevData,
-        { position: e.latLng, department: selectedDepartment },
-      ]);
-    });
+      // Add a click listener to add a new marker on map click
+      map.addListener('click', (e) => {
+        setShowDropdown(true);
+        const reportTag = document.createElement('div');
+        reportTag.className = 'report rounded-lg p-2 flex items-center justify-center text-white bg-blue-500 text-sm cursor-pointer transition transform duration-200 ease-in-out';
+        reportTag.textContent = 'Select Department';
+
+        // Create new marker on map click
+        createMarker(map, e.latLng, 'New Marker');
+      });
+    } catch (error) {
+      console.error('Error initializing map:', error);
+    }
   };
 
-  const createMarker = (map, position, department) => {
-    const { AdvancedMarkerElement } = google.maps.importLibrary("marker");
-
-    const reportTag = document.createElement("div");
-    reportTag.className = "report rounded-lg p-2 flex items-center justify-center text-white bg-blue-500 text-sm cursor-pointer transition transform duration-200 ease-in-out";
-    reportTag.textContent = department;
-
-    const newMarker = new AdvancedMarkerElement({
+  const createMarker = (map, position, locationName) => {
+    const marker = new google.maps.Marker({
       map,
       position,
-      content: reportTag,
+      title: locationName,
     });
 
-    newMarker.addListener("click", () => {
-      toggleHighlight(newMarker, reportTag);
-      navigate(`/marker/${department}`);
+    // Add click listener to the marker
+    marker.addListener('click', () => {
+      console.log(`Marker clicked: ${locationName}`);
+      navigate(`/marker/${locationName}`);
     });
-  };
-
-  const toggleHighlight = (marker, reportTag) => {
-    const isHighlighted = reportTag.style.backgroundColor === 'rgb(220, 38, 38)';
-    const isEnlarged = reportTag.style.transform === 'scale(1.5)';
-
-    if (isHighlighted && isEnlarged) {
-      reportTag.style.backgroundColor = 'rgb(59, 130, 246)';
-      reportTag.style.transform = 'scale(1)';
-    } else {
-      reportTag.style.backgroundColor = 'rgb(220, 38, 38)';
-      reportTag.style.transform = 'scale(1.5)';
-    }
   };
 
   const handleDepartmentChange = (event) => {
     const selected = event.target.value;
     setSelectedDepartment(selected);
-    setShowDropdown(false);
-  };
 
-  const renderIcon = (department) => {
-    switch (department) {
-      case 'Skull Crossbones':
-        return <FaSkullCrossbones />;
-      case 'Fire Extinguisher':
-        return <FaFireExtinguisher />;
-      case 'Taxi':
-        return <FaTaxi />;
-      case 'Plug':
-        return <FaPlug />;
-      case 'Dog':
-        return <FaDog />;
-      case 'Building':
-        return <FaBuilding />;
-      case 'Tree':
-        return <FaTree />;
-      case 'Snowflake':
-        return <FaSnowflake />;
-      case 'Trash':
-        return <FaRegTrashAlt />;
-      case 'Landmark':
-        return <FaLandmark />;
-      case 'Bug':
-        return <FaBug />;
-      case 'Wine Bottle':
-        return <FaWineBottle />;
-      case 'Water':
-        return <FaWater />;
-      default:
-        return null;
-    }
+    const reportTag = document.createElement('div');
+    reportTag.className = 'report';
+    reportTag.style.backgroundColor = 'blue';
+    reportTag.style.color = 'white';
+    reportTag.textContent = selected;
+
+    const markers = document.querySelectorAll('.report');
+    markers.forEach(marker => {
+      marker.textContent = selected;
+      marker.style.backgroundColor = 'blue';
+      marker.style.color = 'white';
+    });
+
+    setShowDropdown(false);
   };
 
   if (!isMapLoaded) {
@@ -183,7 +170,10 @@ const GoogleMap = ({ apiKey, mapId = '42c8848d94ad7219', center = { lat: 43.7, l
         <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg w-80">
             <label className="block text-lg mb-2">Select Department: </label>
-            <select onChange={handleDepartmentChange} className="w-full p-2 text-sm border border-gray-300 rounded-md">
+            <select
+              onChange={handleDepartmentChange}
+              className="w-full p-2 text-sm border border-gray-300 rounded-md"
+            >
               <option value="">-- Select --</option>
               {iconOptions.map((option) => (
                 <option key={option.label} value={option.label}>
@@ -193,15 +183,6 @@ const GoogleMap = ({ apiKey, mapId = '42c8848d94ad7219', center = { lat: 43.7, l
             </select>
           </div>
         </div>
-      )}
-
-      {selectedDepartment && (
-        <h2 className="text-3xl font-bold text-[#234966] text-left py-2 inline-flex items-center mb-2">
-          <span className="bg-blue-800 border-2 text-white rounded-lg p-3 mr-2">
-            {renderIcon(selectedDepartment)}
-          </span>
-          {selectedDepartment}
-        </h2>
       )}
 
       <div id="map" ref={mapRef} style={{ width: '100%', height: '500px' }}></div>

@@ -16,9 +16,6 @@ import ScrollToTop from './components/ScrollToTop';
 import Search from './pages/Search';
 
 // Marker-related imports
-import CreateMarker from './components/CreateMarker';  // Component for creating a marker
-import UserMarkers from './components/UserMarkers';    // Component to view markers created by the logged-in user
-import DepartmentMarkers from './components/DepartmentMarkers'; // Component to view markers by department
 
 export default function App() {
   return (
@@ -36,11 +33,6 @@ export default function App() {
         {/* Private Routes (user authentication required) */}
         <Route element={<PrivateRoute />}>
           <Route path='/dashboard' element={<Dashboard />} />
-          
-          {/* Marker Routes (only accessible for logged-in users) */}
-          <Route path='/create-marker' element={<CreateMarker />} />  {/* Route for creating markers */}
-          <Route path='/user-markers' element={<UserMarkers />} />    {/* Route for viewing user markers */}
-          <Route path='/department-markers/:department' element={<DepartmentMarkers />} /> {/* Route for markers by department */}
         </Route>
 
         {/* Admin Routes (only accessible for admin users) */}
